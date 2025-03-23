@@ -43,7 +43,7 @@ The app is fully asynchronous and uses **PostgreSQL** as the database, **SQLAlch
 ### 1. Clone the project
 
 bash
-git clone https://github.com/yourusername/fastapi-product-api.git
+git clone https://github.com/marinaua13/fastapi-products-api
 cd fastapi-product-api
 
 ### 2. Add your .env.local file
