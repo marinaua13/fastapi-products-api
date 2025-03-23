@@ -10,19 +10,41 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import selectinload
 
 
+# async def create_product(db: AsyncSession, product: ProductCreate):
+#     try:
+#         db_product = Product(name=product.name, quantity=product.quantity, sku=product.sku)
+#         db.add(db_product)
+#         await db.flush()
+#         for char in product.characteristics:
+#             db_char = Characteristic(name=char.name, value=char.value, product_id=db_product.id)
+#             db.add(db_char)
+#         await db.commit()
+#         await db.refresh(db_product)
+#         return db_product
+#     except IntegrityError:
+#         await db.rollback()
+#         raise HTTPException(status_code=400, detail="SKU must be unique.")
 async def create_product(db: AsyncSession, product: ProductCreate):
     try:
         db_product = Product(name=product.name, quantity=product.quantity, sku=product.sku)
         db.add(db_product)
-        await db.flush()  # Отримуємо ID нового продукту
+        await db.flush()
+
         for char in product.characteristics:
             db_char = Characteristic(name=char.name, value=char.value, product_id=db_product.id)
             db.add(db_char)
-        await db.commit()  # Комітимо зміни
-        await db.refresh(db_product)  # Оновлюємо дані продукту з бази
-        return db_product
+
+        await db.commit()
+
+        result = await db.execute(
+            select(Product)
+            .options(selectinload(Product.characteristics))
+            .where(Product.id == db_product.id)
+        )
+        return result.scalars().first()
+
     except IntegrityError:
-        await db.rollback()  # Откатити транзакцію в разі помилки
+        await db.rollback()
         raise HTTPException(status_code=400, detail="SKU must be unique.")
 
 
@@ -50,8 +72,8 @@ async def update_product(db: AsyncSession, product_id: int, product_data: Produc
         product.name = product_data.name
         product.quantity = product_data.quantity
         product.sku = product_data.sku
-        await db.commit()  # Комітимо зміни
-        await db.refresh(product)  # Оновлюємо продукт після зміни
+        await db.commit()
+        await db.refresh(product)
     return product
 
 
