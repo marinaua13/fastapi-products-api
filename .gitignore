@@ -1,0 +1,34 @@
+__pycache__/
+*.py[cod]
+*.env
+.env
+.env.*
+.venv/
+venv/
+*.sqlite3
+*.db
+
+# Alembic
+alembic/versions/
+
+# VS Code
+.vscode/
+
+# Mac / Linux
+.DS_Store
+
+# Docker
+*.log
+*.pid
+
+# PyCharm
+.idea/
+
+# OS
+Thumbs.db
+
+# Byte-compiled
+*.pyo
+
+# Migrations
+migrations/
