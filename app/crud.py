@@ -10,20 +10,6 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import selectinload
 
 
-# async def create_product(db: AsyncSession, product: ProductCreate):
-#     try:
-#         db_product = Product(name=product.name, quantity=product.quantity, sku=product.sku)
-#         db.add(db_product)
-#         await db.flush()
-#         for char in product.characteristics:
-#             db_char = Characteristic(name=char.name, value=char.value, product_id=db_product.id)
-#             db.add(db_char)
-#         await db.commit()
-#         await db.refresh(db_product)
-#         return db_product
-#     except IntegrityError:
-#         await db.rollback()
-#         raise HTTPException(status_code=400, detail="SKU must be unique.")
 async def create_product(db: AsyncSession, product: ProductCreate):
     try:
         db_product = Product(name=product.name, quantity=product.quantity, sku=product.sku)
