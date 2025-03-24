@@ -3,19 +3,18 @@ from typing import List, Optional
 
 
 class CharacteristicBase(BaseModel):
-    class CharacteristicBase(BaseModel):
-        name: str = Field(
-            ...,
-            title="Characteristic Name",
-            description="For example: color, size, weight, etc.",
-            example="Color"
-        )
-        value: str = Field(
-            ...,
-            title="Characteristic Value",
-            description="The value of the corresponding characteristic",
-            example="Red"
-        )
+    name: str = Field(
+        ...,
+        title="Characteristic Name",
+        description="For example: color, size, weight, etc.",
+        example="Color"
+    )
+    value: str = Field(
+        ...,
+        title="Characteristic Value",
+        description="The value of the corresponding characteristic",
+        example="Red"
+    )
 
 
 class CharacteristicCreate(CharacteristicBase):
